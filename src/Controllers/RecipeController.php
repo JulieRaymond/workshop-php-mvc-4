@@ -3,22 +3,28 @@
 namespace App\Controllers;
 
 use App\Models\RecipeModel;
-
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class RecipeController
 {
+    private Environment $twig;
     private RecipeModel $model;
 
     public function __construct()
     {
+        $loader = new FilesystemLoader(__DIR__ . '/../Views/');
+        $this->twig = new Environment($loader);
         $this->model = new RecipeModel();
     }
 
-    public function browse(): void
+
+    public function browse(): string
     {
         $recipes = $this->model->getAll();
-
-        require __DIR__ . '/../Views/indexRecipe.php';
+        return $this->twig->render('indexRecipe.html.twig', [
+            'recipes' => $recipes
+        ]);
     }
 
     public function show(int $id)
