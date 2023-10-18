@@ -1,6 +1,9 @@
 <?php
 
-require __DIR__ . '/../Models/RecipeModel.php';
+namespace App\Controllers;
+
+use App\Models\RecipeModel;
+
 
 class RecipeController
 {
@@ -70,7 +73,7 @@ class RecipeController
         if (!empty($recipe['title']) && strlen($recipe['title']) > 255) {
             $errors[] = 'The title should be less than 255 characters';
         }
-    
+
         return $errors ?? [];
     }
 
@@ -94,7 +97,7 @@ class RecipeController
             // Update the recipe
             if (empty($errors)) {
                 $this->model->update($recipe, $id);
-                header('Location: /show?id='.$id);
+                header('Location: /show?id=' . $id);
             }
         }
 
