@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>
+			{% block title %}
+				Workshop MVC 4
+			{% endblock %}
+		</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+	</head>
+	<body>
+		<main class="container">
+			<a href="/">Home</a>
+			<div>
+				<a href="/add?id={{ recipe.id }}">Add</a>
+			</div>
+			{% block content %}{% endblock %}
+		</main>
+	</body>
+</html>

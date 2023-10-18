@@ -34,17 +34,16 @@ class RecipeController
             exit("Wrong input parameter");
         }
 
-        // Fetching a recipe
         $recipe = $this->model->getById($id);
 
-        // Result check
         if (!isset($recipe['title']) || !isset($recipe['description'])) {
             header("HTTP/1.1 404 Not Found");
             die("Recipe not found");
         }
 
-        // Generate the web page
-        require __DIR__ . '/../Views/showRecipe.php';
+        echo $this->twig->render('showRecipe.html.twig', [
+            'recipe' => $recipe
+        ]);
     }
 
     public function add()
@@ -54,18 +53,17 @@ class RecipeController
         if ($_SERVER["REQUEST_METHOD"] === 'POST') {
             $recipe = array_map('trim', $_POST);
 
-            // Validate data
             $errors = $this->validate($recipe);
 
-            // Save the recipe
             if (empty($errors)) {
                 $this->model->save($recipe);
                 header('Location: /');
             }
         }
 
-        // Generate the web page
-        require __DIR__ . '/../Views/form.php';
+        echo $this->twig->render('add.html.twig', [
+            'errors' => $errors,
+        ]);
     }
 
     private function validate(array $recipe)
@@ -97,17 +95,17 @@ class RecipeController
         if ($_SERVER["REQUEST_METHOD"] === 'POST') {
             $recipe = array_map('trim', $_POST);
 
-            // Validate data
             $errors = $this->validate($recipe);
 
-            // Update the recipe
             if (empty($errors)) {
                 $this->model->update($recipe, $id);
                 header('Location: /show?id=' . $id);
             }
         }
 
-        // Generate the web page
-        require __DIR__ . '/../Views/form.php';
+        echo $this->twig->render('form.html.twig', [
+            'errors' => $errors,
+            'recipe' => $recipe
+        ]);
     }
 }
